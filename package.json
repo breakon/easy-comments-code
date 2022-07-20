@@ -2,12 +2,19 @@
     "name": "easy-comments-code",
     "displayName": "Easy Comments Code",
     "description": "A simple comments code",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "breakon",
     "license": "MIT", 
     "author": {
         "name": "breakon"
       },
+      "repository": {
+		"type": "git",
+		"url": "https://github.com/breakon/easy-comments-code"
+	},
+    "bugs": {
+		"url": "https://github.com/breakon/easy-comments-code/issues"
+	},
     "engines": {
         "vscode": "^1.32.0"
     },
