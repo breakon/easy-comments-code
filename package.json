@@ -1,0 +1,59 @@
+{
+    "name": "easy-comments-code",
+    "displayName": "Easy Comments Code",
+    "description": "A simple comments code",
+    "version": "0.0.2",
+    "publisher": "breakon",
+    "license": "MIT", 
+    "author": {
+        "name": "breakon"
+      },
+    "engines": {
+        "vscode": "^1.32.0"
+    },
+    "categories": [
+        "Formatters",
+		"Other"
+    ],
+    "activationEvents": [
+		"onCommand:extension.EasyCommentsCode"
+	],
+    "keywords": [
+		"comment",
+		"vue"
+	],
+    "main": "./out/extension",
+    "contributes": {
+        "commands": [
+            {
+				"command": "extension.EasyCommentsCode",
+				"title": "Easy Comment Code"
+			}
+            
+        ],"keybindings": [
+			{
+				"command": "extension.EasyCommentsCode",
+				"key": "ctrl+/",
+				"mac": "cmd+/",
+                "linux": "ctrl+/",
+				"when": "editorTextFocus && !editorReadonly"
+			}
+		]
+    },
+    "icon": "images/logo.png",
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "lint": "eslint . --ext .ts,.tsx",
+        "watch": "tsc -watch -p ./",
+        "test:html":"ts-node ./test-text/html.ts"
+    },
+    "devDependencies": {
+        "@types/node": "^16.11.7",
+        "@types/vscode": "^1.32.0",
+        "@typescript-eslint/eslint-plugin": "^5.30.0",
+        "@typescript-eslint/parser": "^5.30.0",
+        "eslint": "^8.13.0",
+        "typescript": "^4.7.2"
+    }
+}
