@@ -53,7 +53,7 @@
         "compile": "tsc -p ./",
         "lint": "eslint . --ext .ts,.tsx",
         "watch": "tsc -watch -p ./",
-        "test:html":"ts-node ./test-text/html.ts"
+        "test:html":"ts-node ./test/html.ts"
     },
     "devDependencies": {
         "@types/node": "^16.11.7",

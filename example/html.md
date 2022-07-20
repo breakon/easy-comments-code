@@ -37,40 +37,35 @@
 # ✅ 2. Cancel Nesting Html(取消HTML嵌套) 
 
 ## Before
-<!-- TestMark:Html-Cancel-Nesting-Html  -->
+<!-- TestMark:HtmlCancelNestingHtml-Before  -->
 ```html
-<html>
-</body>
-   <div> 
-   <!--  
-     <!~~ 
-       <div> 
+   <!-- <div>   
+   <!~~ 
+    <div> 
+	 <div> </div>
 	<!~~ <div> </div> ~~>
-	<!~~ <div> </div> ~~>
-        </div> 
-      ~~>
+   </div> 
+   ~~>
+   <!~~ test ~~>
    </div> -->
-</body>
-</html>
 ```
 
 
 ## After
-
+<!-- TestMark:HtmlCancelNestingHtml-After  -->
 ```html
-<html>
-</body>
-   <div> 
-     <!-- 
-       <div> 
+   <div>   
+   <!-- 
+    <div> 
+	 <div> </div>
 	<!~~ <div> </div> ~~>
-	<!~~ <div> </div> ~~>
-        </div> 
-      -->
    </div> 
-</body>
-</html>
+   -->
+   <!-- test -->
+   </div>
 ```
+
+
 
 # 👨‍💻3. (Wait for support) Property comments(属性注释) 
 
@@ -126,4 +121,3 @@ Step 2
 </body>
 </html>
 ```
-
