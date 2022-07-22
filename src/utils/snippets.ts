@@ -1,3 +1,4 @@
+import constantCfg from "../constant";
 export const GetMdHtmlBlock = (str: string) => {
 
 	// const reg1=/(?<=<template>)[\s\S]*(?=<\/template>)/;
@@ -25,19 +26,46 @@ export const GetOutermostTag = (arr: [string, string], str: string) => {
 };
 
 export const ReplaceOutermostTag = (target: [string, string], replace: [string, string], str: string) => {
-	const textOutermost = GetOutermostTag(target, str);
-	if (!textOutermost) { return; }
-	const [startKey, EndKey] = replace;
-	const reg = `(?<=${startKey})[\\s\\S]*?(?=${EndKey})`;
-	// ((<!~~))[\s\S][^!~~]*((~~>))
 	
-	const nestedStarKeyReplace = new RegExp(reg, "gm");
-	const res = str.match(nestedStarKeyReplace);
-	if (!res) {
+	const textOutermost = GetOutermostTag(target, str);
+
+	if (!textOutermost) { return; }
+
+	// console.log("textOutermost",textOutermost); 
+	const reg = new RegExp(constantCfg.html.combination.singleLayer, "g");
+	const textMatchList = textOutermost.text.match(reg)
+	
+	const [ NC_Start,NC_End ]=constantCfg.html.nestedComments
+	const SingleLabelIndex:{ [k:number]:string }={}//
+	if (!textMatchList) {
 		console.warn("ReplaceOutermostTa:no match ", reg, str);
 		return null;
 	}
-	return { text:res[0], index: res.index };
+	textMatchList.forEach((el,i) => {
+		if(NC_Start===el||NC_End===el) {
+			SingleLabelIndex[i]=el
+		}
+		});
+	let logIndex=0;
+	const [C_Start,C_End]=constantCfg.html.comments
+	  let bool=true
+	const res1=textOutermost.text.replace(reg, (_cString)=>{
+
+		const singleFindTag=SingleLabelIndex[logIndex]||"" 
+		let currentStr=_cString
+		if(singleFindTag){
+			const idx=[NC_Start,NC_End].indexOf(singleFindTag);
+			// console.log("SingleLabelIndex:",idx,singleFindTag)
+			bool=NC_End===singleFindTag
+			currentStr= [C_Start,C_End][+idx];
+		 }
+		 if((bool)&&(currentStr.startsWith(NC_Start)&&currentStr.endsWith(NC_End))){
+			currentStr= currentStr.replace(NC_Start,C_Start).replace(NC_End,C_End)
+		}
+		logIndex++ 
+	        return currentStr
+	});
+	return { text:textMatchList, index: textMatchList.index };
 };
 
 

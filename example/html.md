@@ -3,67 +3,117 @@
 
 `Introduction and testing`
 
-# USE
+## USE
 
 > CTRL+/
 
-# ✅ 1. Html Nested Comments (HTML嵌套)
-
+## ✅ 1. Html Nested Comments (HTML嵌套)
+<hr>
 
 ## Before
 ```html
-<html>
-</body>
    <div> 
-	<div> </div>
 	<!-- <div> </div> -->
    </div>
-</body>
-</html>
 ```
 
 ## After
+
 ```html
-<html>
-</body>
-   <!-- <div> 
-	<div> </div>
+   <!-- <div>  
 	<!~~ <div> </div> ~~>
-   </div> -->
-</body>
-</html>
+    </div>  -->
 ```
 
-# ✅ 2. Cancel Nesting Html(取消HTML嵌套) 
+## ✅ 2. Cancel Nesting Html(取消HTML嵌套) 
+<hr>
 
-## Before
+### Before
 <!-- TestMark:HtmlCancelNestingHtml-Before  -->
 ```html
-   <!-- <div>   
+  <!-- <main> 
+<!~~ 
+   <div></div>
+      ~~>
+		
+   <!~~ test3 
+	
+	~~>
+    test4
+	 <!~~ 
+   <div>
+	<!~~ test3 
+	
+	~~>
+	
+	 <!~~ 
+   <div></div>
+      ~~>
+	</div>
+      ~~>
+	 
    <!~~ 
-    <div> 
-	 <div> </div>
-	<!~~ <div> </div> ~~>
-   </div> 
-   ~~>
-   <!~~ test ~~>
-   </div> -->
+   <div>
+	<!~~ test3 
+	
+	~~>
+	
+	 <!~~ 
+   <div></div>
+      ~~>
+	</div>
+      ~~> 
+   </main> 
+	
+	-->
 ```
+**Process-转换过程**
 
+The first layer of nested under the parent level will be canceled code block
 
-## After
+在父级下嵌套的第一层将取消代码块 `<!~~`  switch `<!--`
+
+### After
 <!-- TestMark:HtmlCancelNestingHtml-After  -->
 ```html
-   <div>   
-   <!-- 
-    <div> 
-	 <div> </div>
-	<!~~ <div> </div> ~~>
-   </div> 
-   -->
-   <!-- test -->
-   </div>
+ 
+ <main> 
+<!-- 
+   <div></div>
+      -->
+
+   <!-- test3 
+
+        -->
+    test4
+         <!~~ 
+   <div>
+        <!~~ test3 
+
+        ~~>
+
+         <!~~ 
+   <div></div>
+      ~~>
+        </div>
+      ~~>
+         
+   <!~~ 
+   <div>
+        <!-- test3 
+
+        -->
+
+         <!-- 
+   <div></div>
+      -->
+        </div>
+      ~~> 
+   </main> 
 ```
+
+
+
 
 
 
