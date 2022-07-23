@@ -1,18 +1,15 @@
-#  易用的注释代码 Easy Comments Code
+<p align='left' style='font-size:30px' > 易用的注释代码 </p>
+<p align=''> 这个是基于默认功能注释，功能优化插件 </p>
+<p align=''> 中文 | <a href='./README.en-US.md'>English</a> </p>
 
-这个是基于默认功能注释，功能优化插件
 
-This is on the basis of the original function optimization running comments plugin
+## 使用方式
 
-## Use
+>CTRL+/
 
->ctrl+/
+## 当前支持的文件(vue)
 
-## 当前支持的文件 - Currently support functions
-
-**vue html嵌套注释功能**
-
-**Vue HTML Nested Comments**
+**vue html 嵌套注释功能**
 ```html
 <template>
     <h2>eg:</h2>
@@ -32,22 +29,35 @@ This is on the basis of the original function optimization running comments plug
 ```
 
 
-[Functional details-更多功能](./example/html.md)
 
-## 下一个版本计划 The Next Version
+[更多功能](./example/html.md)
+
+## 修复已知问题
+
+修复了多层嵌套 html 未能正确取消注释
+
+ps:注意目前未支持批量注释
+
+```html
+eg:
+<!-- <div></div>  -->
+<!-- <div></div> -->
+<!-- <div></div> -->
+```
+
+## 下一个版本计划
 
 
 未来还会加入，html属性注释，还会加入更多语言注释功能
 
-The future will support HTML attribute annotations
 
 `html,css,go,...More files`
 
-## 关于 About
+## 关于 
 
 [marketplace](https://marketplace.visualstudio.com/items?itemName=breakon.easy-comments-code)
 
 
-## License
+## 许可证MIT
 
 [MIT](https://opensource.org/licenses/MIT)
