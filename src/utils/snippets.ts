@@ -25,17 +25,16 @@ export const GetOutermostTag = (arr: [string, string], str: string) => {
 	return { text: res[0], index: res.index };
 };
 
-export const ReplaceOutermostTag = (target: [string, string], replace: [string, string], str: string) => {
-	
+export const ReplaceOutermostTag = (
+	target: [string, string], 
+	removeNested: [string, string],
+	 str: string) => {
 	const textOutermost = GetOutermostTag(target, str);
-
 	if (!textOutermost) { return; }
-
 	// console.log("textOutermost",textOutermost); 
 	const reg = new RegExp(constantCfg.html.combination.singleLayer, "g");
 	const textMatchList = textOutermost.text.match(reg)
-	
-	const [ NC_Start,NC_End ]=constantCfg.html.nestedComments
+	const [ NC_Start,NC_End ]=removeNested
 	const SingleLabelIndex:{ [k:number]:string }={}//
 	if (!textMatchList) {
 		console.warn("ReplaceOutermostTa:no match ", reg, str);
@@ -49,8 +48,7 @@ export const ReplaceOutermostTag = (target: [string, string], replace: [string, 
 	let logIndex=0;
 	const [C_Start,C_End]=constantCfg.html.comments
 	  let bool=true
-	const res1=textOutermost.text.replace(reg, (_cString)=>{
-
+	const replaceTextResult=textOutermost.text.replace(reg, (_cString)=>{ 
 		const singleFindTag=SingleLabelIndex[logIndex]||"" 
 		let currentStr=_cString
 		if(singleFindTag){
@@ -65,7 +63,7 @@ export const ReplaceOutermostTag = (target: [string, string], replace: [string, 
 		logIndex++ 
 	        return currentStr
 	});
-	return { text:textMatchList, index: textMatchList.index };
+	return { text:replaceTextResult};
 };
 
 

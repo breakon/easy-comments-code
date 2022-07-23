@@ -76,40 +76,41 @@ The first layer of nested under the parent level will be canceled code block
 ### After
 <!-- TestMark:HtmlCancelNestingHtml-After  -->
 ```html
- 
  <main> 
 <!-- 
    <div></div>
       -->
-
+		
    <!-- test3 
-
-        -->
+	
+	-->
     test4
-         <!~~ 
+	 <!-- 
    <div>
-        <!~~ test3 
-
-        ~~>
-
-         <!~~ 
+	<!~~ test3 
+	
+	~~>
+	
+	 <!~~ 
    <div></div>
       ~~>
-        </div>
-      ~~>
-         
-   <!~~ 
-   <div>
-        <!-- test3 
-
-        -->
-
-         <!-- 
-   <div></div>
+	</div>
       -->
-        </div>
-      ~~> 
+	 
+   <!-- 
+   <div>
+	<!~~ test3 
+	
+	~~>
+	
+	 <!~~ 
+   <div></div>
+      ~~>
+	</div>
+      --> 
    </main> 
+	
+	
 ```
 
 

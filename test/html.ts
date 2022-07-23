@@ -8,6 +8,7 @@ function testMarkHtmlCancelText(key:string) {
 	const testHtmlCancelText = TargetMdHtmCode(key, mdHtmlText);
 	if (!testHtmlCancelText) { return {outInputText:null,key,message:key+" Not Found Tag"}; }
 	const outInputText = ReplaceOutermostTag(["<!--", "-->"], ["<!~~", "~~>"], testHtmlCancelText);
+	console.log("outInputText:",outInputText?.text)
 	return {outInputText:outInputText?.text,key};
 }
 
