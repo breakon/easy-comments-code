@@ -63,10 +63,10 @@ export const ReplaceOutermostTag = (
 			return currentStr
 		});
 
-		const checkRowNum=str.split("\n")
-		if(checkRowNum.length !==replaceTextResult.split("\n").length){
-			return  { text:null}
-		}
+		// const checkRowNum=str.split("\n")
+		// if(checkRowNum.length !==replaceTextResult.split("\n").length){
+		// 	return  null
+		// }
 		rowText +=replaceTextResult
 
 	 }

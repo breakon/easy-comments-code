@@ -44,7 +44,7 @@ const formatVue = (text: string, editor: vscode.TextEditor,) => {
 		const [nestedStartKey, nestedEndKey] = constant.html.nestedComments
 		if (isCommentIdentify) {
 			const HtmlBlockComments = getHtmlBlockComments(text)
-			console.log("todo-comment", HtmlBlockComments)
+			// console.log("todo-comment", HtmlBlockComments)
 			if (!HtmlBlockComments) { return }
 			const nestedStarKeyReplace = new RegExp(startKey, "g"), nestedEndKeyReplace = new RegExp(endKey, "g")
 			const fComments = HtmlBlockComments.text.replace(nestedStarKeyReplace, nestedStartKey).replace(nestedEndKeyReplace, nestedEndKey)
