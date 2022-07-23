@@ -2,7 +2,7 @@
 import * as fs from "fs";
 
 import { TargetMdHtmCode, ReplaceOutermostTag } from "../src/utils";
-const mdHtmlText: string = fs.readFileSync("./example/html.md").toString();
+const mdHtmlText: string = fs.readFileSync("../example/html.md").toString();
 
 function testMarkHtmlCancelText(key:string) {
 	const testHtmlCancelText = TargetMdHtmCode(key, mdHtmlText);

@@ -6,7 +6,6 @@ import * as utils from "./utils";
 export function activate(context: vscode.ExtensionContext) {
 	// await vscode.commands.executeCommand("editor.action.commentLine")
 	vscode.commands.registerTextEditorCommand("extension.EasyCommentsCode", () => {
-
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) { return }
 		const document = editor.document;
@@ -36,12 +35,12 @@ const formatVue = (text: string, editor: vscode.TextEditor,) => {
 	const docAllText = editor.document.getText()
 	const HtmlBlockCode = getHtmlBlock(docAllText)
 	const [startKey, endKey] = constant.html.comments
-	if (HtmlBlockCode && HtmlBlockCode.text.search(text) >= 0) {
-		const isCommentIdentify = !(text.trimStart().startsWith(startKey) && text.trimEnd().endsWith(endKey))
+	const [nestedStartKey, nestedEndKey] = constant.html.nestedComments
+	if (HtmlBlockCode&&HtmlBlockCode.text.indexOf(text)>=0) {
+		const isCommentIdentify = (!text.trimStart().startsWith(startKey))
 		// const findEndComment = _text.lastIndexOf(endKey)
 		let formatData = ""
 		// && findStartComment<findEndComment
-		const [nestedStartKey, nestedEndKey] = constant.html.nestedComments
 		if (isCommentIdentify) {
 			const HtmlBlockComments = getHtmlBlockComments(text)
 			// console.log("todo-comment", HtmlBlockComments)
@@ -50,21 +49,17 @@ const formatVue = (text: string, editor: vscode.TextEditor,) => {
 			const fComments = HtmlBlockComments.text.replace(nestedStarKeyReplace, nestedStartKey).replace(nestedEndKeyReplace, nestedEndKey)
 			formatData = OriginalNotes(text.replace(HtmlBlockComments.text, fComments))
 		} else {
-			console.log("todo-uncomment")
+			// console.log("todo-uncomment")
 			formatData = utils.ReplaceOutermostTag([startKey, endKey], [nestedStartKey, nestedEndKey], text) || ""
-
 			if(!formatData){
 				formatData = text.replace(startKey, " ".repeat(startKey.length)).replace(endKey," ".repeat(endKey.length))
 			}
-			// const nestedStarKeyReplace = new RegExp(startKey, "g"), nestedEndKeyReplace = new RegExp(startKey, "g")
-			//  console.log("formatData:",formatData)
-			// formatData = text.replace(nestedStarKeyReplace, startKey).replace(nestedEndKeyReplace, endKey)
 		}
 
 		return formatData && formatData
 
 	}else{
-		vscode.commands.executeCommand("editor.action.commentLine")	
+		vscode.commands.executeCommand("editor.action.commentLine")
 	}
 
 	
