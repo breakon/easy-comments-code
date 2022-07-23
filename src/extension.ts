@@ -51,7 +51,7 @@ const formatVue = (text: string, editor: vscode.TextEditor,) => {
 			formatData = OriginalNotes(text.replace(HtmlBlockComments.text, fComments))
 		} else {
 			console.log("todo-uncomment")
-			formatData = utils.ReplaceOutermostTag([startKey, endKey], [nestedStartKey, nestedEndKey], text)?.text || ""
+			formatData = utils.ReplaceOutermostTag([startKey, endKey], [nestedStartKey, nestedEndKey], text) || ""
 
 			if(!formatData){
 				formatData = text.replace(startKey, " ".repeat(startKey.length)).replace(endKey," ".repeat(endKey.length))
