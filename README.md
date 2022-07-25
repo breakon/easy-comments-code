@@ -1,6 +1,7 @@
-<p align='left' style='font-size:30px' > 易用的注释代码 </p>
+<p align='left' style='font-size:30px' > 易用的注释代码 ( 准备重构注释方式 ) </p>
 <p align=''> 这个是基于默认功能注释，功能优化插件 </p>
-<p align=''> 中文 | <a href='./README.en-US.md'>English</a> </p>
+<!-- <p align=''> 中文 | <a href='./README.en-US.md'>English</a> </p> -->
+
 
 
 ## 使用方式
@@ -28,6 +29,26 @@
 </template>
 ```
 
+以上嵌套方式存在一些不够灵活的地方,如果要解开中间div还需要解开父级注释，插件下一个版本重新设计成行注释嵌套模式,感谢之前大家的使用
+
+如下:行嵌套注释模式(我参考了webstom)
+```html
+<template>
+    <h2>eg:</h2>
+     <div>
+        <!-- <div></div>  -->
+        <div></div>
+        <!-- <div></div>  -->
+     </div> 
+
+    <h2>eg:</h2>
+       <!-- <div> -->
+       <!-- <!~~ <div></div>  ~~> -->
+       <!--  <div></div>   -->
+       <!-- <!~~ <div></div>  ~~> -->
+      <!-- </div>  -->
+</template>
+```
 
 
 [更多功能](./example/html.md)
