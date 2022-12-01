@@ -45,7 +45,6 @@ function isTemplateRange(editor: vscode.TextEditor, entireRange: vscode.Range) {
 			break
 		}
 		findTemplate = !editor.document.lineAt(startIdx).text.indexOf("<template")
-		// ||(editor.document.lineCount>=endIdx&&!editor.document.lineAt(endIdx).text.includes("</template"))
 		if (findTemplate) {
 			break
 		}
@@ -60,9 +59,6 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 	} 
 	// console.log("文本",editor.document.lineAt(entireRange.start))
 	//  new vscode.Range(, entireRange.start);
-
-
-	return 
 }
 
 // const formatVue = (text: string, editor: vscode.TextEditor,) => {
@@ -119,22 +115,4 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 // 	}
 // }
 
-const formatHtml = (text: string, editor: vscode.TextEditor,) => {
-	// Next version plan
-}
 
-const getHtmlBlockComments = (str: string) => {
-	const reg = /[\s\S]*/;
-	const res = str.match(reg)
-	if (!res) { return null }
-	return { text: res[0], index: res.index }
-}
-
-
-const getHtmlBlock = (str: string) => {
-	// const reg1=/(?<=<template>)[\s\S]*(?=<\/template>)/;
-	const reg1 = /(<template>)[\s\S]*(<\/template>)/;
-	const res = str.match(reg1)
-	if (!res) { return null }
-	return { text: res[0], index: res.index }
-}

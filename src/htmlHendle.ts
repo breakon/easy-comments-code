@@ -18,12 +18,11 @@ const splitInputText = (input: string) => {
 	let commentsNum = 0
 
 	inputSplit.forEach(lineItem => {
-		if (lineItem.search(/(<!--)[\s\S]*(-->)/)) {
+		if (/(<!--)[\s\S]*(-->)/.test(lineItem)) {
 			commentsNum++
 		}
 	})
-	// console.log(commentsNum, inputSplit.length)
-	return { splitArray: inputSplit, isComments: !(commentsNum === inputSplit.length-1) }
+	return { splitArray: inputSplit, isComments: !(commentsNum == inputSplit.length) }
 
 }
 
@@ -54,8 +53,8 @@ const commentline = (lineText: string) => {
 // }
 const unCommentline = (lineText: string) => {
 	const [nestedStartKey, nestedEndKey] = constant.html.nestedComments
-	let lineTextNesting = utils.ReplaceOutermostTag([`${startKey} `, ` ${endKey}`], [nestedStartKey, nestedEndKey], lineText) || utils.ReplaceOutermostTag([startKey, endKey], [nestedStartKey, nestedEndKey], lineText) || ""
-	if (!lineTextNesting) {
+	let lineTextNesting = utils.ReplaceOutermostSingleTag([`${startKey} `, ` ${endKey}`], [nestedStartKey, nestedEndKey], lineText) || utils.ReplaceOutermostSingleTag([startKey, endKey], [nestedStartKey, nestedEndKey], lineText) || ""
+	if (lineTextNesting===lineText) {
 		lineTextNesting = lineText.replace(`${startKey} `, "").replace(`${endKey} `, "").replace(startKey, "").replace(endKey, "")
 	}
 	return lineTextNesting.trimEnd()

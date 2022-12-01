@@ -69,30 +69,23 @@
 ```
 
 
-## Before-2 
+## Before-2
+<!-- test:nestedMultiLine-2-before  -->
 ```html
     <div></div>
-<!-- <div></div> -->
-<!-- <div></div> -->
+    <!-- <div></div> -->
+    <div></div>
+    <!-- <div><!~~ <div><!~~ <div>666</div> ~~></div> ~~></div> -->
+    <!-- <div></div> --><!-- <div></div> -->
 ```
 ## After-2
+<!-- test:nestedMultiLine-2-after  -->
 ```html
-<!-- <div></div> -->
-<!-- <!~~ <div></div> ~~> -->
-<!-- <!~~ <div></div> ~~> -->
-```
-
-## Before-3
-```html
-<!-- <div></div> -->
-<!-- <div></div> -->
-<div></div>
-```
-## After-3
-```html
-<!-- <!~~ <div></div> ~~> -->
-<!-- <!~~ <div></div> ~~> -->
-<!-- <div></div> -->
+    <!-- <div></div> -->
+    <!-- <!~~ <div></div> ~~> -->
+    <!-- <div></div> -->
+    <!-- <!~~ <div><!~~ <div><!~~ <div>666</div> ~~></div> ~~></div> ~~> -->
+    <!-- <!~~ <div></div> ~~><!~~ <div></div> ~~> -->
 ```
 
 		

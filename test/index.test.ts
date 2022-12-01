@@ -10,9 +10,12 @@ function readFileIfExists(value?: string) {
 import { TargetMdHtmCode, ReplaceOutermostTag } from "../src/utils";
 
 import  htmlHendle from "../src/htmlHendle";
-const mdHtmlText: string = readFileIfExists("example/html-line-by-line.md")
+const mdHtmlText: string = readFileIfExists("example/html-line-by-line.md") as string;
 function testTextTarget(value:string){
-  return [TargetMdHtmCode(`${value}-before`, mdHtmlText),TargetMdHtmCode(`${value}-after`, mdHtmlText)]
+ let before= TargetMdHtmCode(`${value}-before`, mdHtmlText),
+ after= TargetMdHtmCode(`${value}-after`, mdHtmlText)
+ if(!before||!after){ return [] }
+  return [before,after]
 }
 
 test('单行注释-创建与取消', () => {
@@ -50,11 +53,16 @@ test('多行注释-创建与取消', () => {
   // expect(beforeText).eq(htmlHendle.unCommentHeandle(splitArrayBefore),"取消注释")
 })
 
-test('多行嵌套注释-创建与取消', () => {
+test('多行嵌套注释-创建与取消-1', () => {
 const [beforeText,afterText]=testTextTarget("test:nestedMultiLine-1")
   const splitArrayAfter =htmlHendle.splitInputText(beforeText).splitArray
   expect(htmlHendle.commentHeandle(splitArrayAfter)).eq(afterText,"注释")
-  
   const splitArrayBefore =htmlHendle.splitInputText(afterText).splitArray
   expect(htmlHendle.unCommentHeandle(splitArrayBefore)).eq(beforeText,"取消注释")
 })
+
+test('多行嵌套注释-创建与取消-2', () => {
+  const [beforeText,afterText]=testTextTarget("test:nestedMultiLine-2")
+    expect(htmlHendle.heandle(beforeText)).eq(afterText,"注释")
+    expect(htmlHendle.heandle(afterText)).eq(beforeText,"取消注释")
+  })
