@@ -3,7 +3,7 @@
 import * as vscode from 'vscode';
 import constant from "./constant"
 import * as utils from "./utils";
-import  htmlHendle from "./htmlHendle"
+import htmlHendle from "./htmlHendle"
 import { BaseLanguageClient } from 'vscode-languageclient';
 export function activate(context: vscode.ExtensionContext, client: BaseLanguageClient) {
 	// await vscode.commands.executeCommand("editor.action.commentLine")
@@ -13,7 +13,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const document = editor.document;
 
 		// html: formatHtml,
-		const SupportingFile = { vue: formatVue }[document.languageId] || null
+		const SupportingFile = { vue: formatVue, wxml: formatWxml }[document.languageId] || null
 		if (!SupportingFile) { // Keep the default effect
 			vscode.commands.executeCommand("editor.action.commentLine"); return
 		}
@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 
 		if (!formatText) {
 			console.warn("Not in line with rules")
-					vscode.commands.executeCommand("editor.action.commentLine");
+			vscode.commands.executeCommand("editor.action.commentLine");
 			return
 		}
 		editor.edit(editBuilder => { return editBuilder.replace(entireRange, formatText) })
@@ -37,28 +37,33 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 }
 
 
-function isTemplateRange(editor: vscode.TextEditor, entireRange: vscode.Range) {
-	let findTemplate = false
-	for (let startIdx = entireRange.start.line - 1; startIdx >= 0; startIdx--) {
-		const linaAtIdexItemText=editor.document.lineAt(startIdx).text
-		if ((linaAtIdexItemText.indexOf("<style")===0||linaAtIdexItemText.indexOf("</style>")===0||linaAtIdexItemText.indexOf("<script")==0 || linaAtIdexItemText.indexOf("</scrip>")==0)) {
-			break
-		}
-		findTemplate = !editor.document.lineAt(startIdx).text.indexOf("<template")
-		if (findTemplate) {
-			break
-		}
-	}
-	return findTemplate
-}
+
 
 const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
+	function isTemplateRange(editor: vscode.TextEditor, entireRange: vscode.Range) {
+		let findTemplate = false
+		for (let startIdx = entireRange.start.line - 1; startIdx >= 0; startIdx--) {
+			const linaAtIdexItemText = editor.document.lineAt(startIdx).text
+			if ((linaAtIdexItemText.indexOf("<style") === 0 || linaAtIdexItemText.indexOf("</style>") === 0 || linaAtIdexItemText.indexOf("<script") == 0 || linaAtIdexItemText.indexOf("</scrip>") == 0)) {
+				break
+			}
+			findTemplate = !editor.document.lineAt(startIdx).text.indexOf("<template")
+			if (findTemplate) {
+				break
+			}
+		}
+		return findTemplate
+	}
 	// const docAllText = editor.document.getText()
 	if (isTemplateRange(editor, entireRange)) {
-		return  htmlHendle.heandle(input)
-	} 
+		return htmlHendle.heandle(input)
+	}
 	// console.log("文本",editor.document.lineAt(entireRange.start))
 	//  new vscode.Range(, entireRange.start);
+}
+
+const formatWxml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
+	return htmlHendle.heandle(input)
 }
 
 // const formatVue = (text: string, editor: vscode.TextEditor,) => {
