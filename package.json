@@ -4,48 +4,48 @@
     "description": "A simple comments code",
     "version": "0.0.7",
     "publisher": "breakon",
-    "license": "MIT", 
+    "license": "MIT",
     "author": {
         "name": "breakon"
-      },
-      "repository": {
-		"type": "git",
-		"url": "https://github.com/breakon/easy-comments-code"
-	},
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/breakon/easy-comments-code"
+    },
     "bugs": {
-		"url": "https://github.com/breakon/easy-comments-code/issues"
-	},
+        "url": "https://github.com/breakon/easy-comments-code/issues"
+    },
     "engines": {
         "vscode": "^1.63.0"
     },
     "categories": [
         "Formatters",
-		"Other"
+        "Other"
     ],
     "activationEvents": [
-		"onCommand:extension.EasyCommentsCode"
-	],
+        "onCommand:extension.EasyCommentsCode"
+    ],
     "keywords": [
-		"comment",
-		"vue"
-	],
+        "comment",
+        "vue"
+    ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
-				"command": "extension.EasyCommentsCode",
-				"title": "Easy Comment Code"
-			}
-            
-        ],"keybindings": [
-			{
-				"command": "extension.EasyCommentsCode",
-				"key": "ctrl+/",
-				"mac": "cmd+/",
+                "command": "extension.EasyCommentsCode",
+                "title": "Easy Comment Code"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "extension.EasyCommentsCode",
+                "key": "ctrl+/",
+                "mac": "cmd+/",
                 "linux": "ctrl+/",
-				"when": "editorTextFocus && !editorReadonly"
-			}
-		]
+                "when": "editorTextFocus && !editorReadonly"
+            }
+        ]
     },
     "icon": "images/logo.png",
     "scripts": {
@@ -53,7 +53,7 @@
         "compile": "tsc -p ./",
         "lint": "eslint . --ext .ts,.tsx",
         "watch": "tsc -watch -p ./",
-        "test:html":"ts-node ./test/html.ts"
+        "test:html": "vitest"
     },
     "devDependencies": {
         "@types/node": "^16.11.7",
@@ -61,6 +61,8 @@
         "@typescript-eslint/eslint-plugin": "^5.30.0",
         "@typescript-eslint/parser": "^5.30.0",
         "eslint": "^8.13.0",
-        "typescript": "^4.7.2"
+        "typescript": "^4.7.2",
+        "vscode-languageclient": "^8.0.2",
+        "vitest": "^0.25.1"
     }
 }
