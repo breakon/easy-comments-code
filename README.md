@@ -1,4 +1,4 @@
-<p align='left' style='font-size:30px' > 易用的注释代码 ( 准备重构注释方式 ) </p>
+<p align='left' style='font-size:30px' > 易用的注释代码 </p>
 <p align=''> 这个是基于默认功能注释，功能优化插件 </p>
 <!-- <p align=''> 中文 | <a href='./README.en-US.md'>English</a> </p> -->
 
