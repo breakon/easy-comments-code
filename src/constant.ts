@@ -2,14 +2,21 @@ const htmlComments=["<!--","-->"];
 const htmlNestedCommentsIdentify="~~"
 const htmlNestedComments=["<!"+htmlNestedCommentsIdentify,htmlNestedCommentsIdentify+">"];
 export default {
+	spaceChars:" ",
+	tabChars:"	",
 	html:{
-		comments:htmlComments	,
+		commentsStart:"<!--",
+		commentsEnd:"-->",
+		nestedCommentsStart:"<!~~",
+		nestedCommentsEnd:"~~>",
+		
+		comments:htmlComments,
 		nestedComments:htmlNestedComments,
 		attributeComments:"//",
+
 		combination:{
 			singleLayer:(()=>{
-				const [left, right] =htmlNestedComments; // create:((<!~~)([^(!~~)]+)(~~>))|(~~>)|(<!~~)
-				return `((${left})([^(${htmlNestedCommentsIdentify})]+)(${right}))|(${right})|(${left})`
+				return ""
 			})()
 			
 		}

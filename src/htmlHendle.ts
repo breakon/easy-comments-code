@@ -1,9 +1,10 @@
 
 import * as utils from "./utils";
 import constant from "./constant"
-const startKey = "<!--"
-const endKey = "-->"
-
+const COMMENTS_START = constant.html.commentsStart
+const COMMENTS_END = constant.html.commentsEnd
+const NESTEDCOMMENTS_START=constant.html.nestedCommentsStart
+const NESTEDCOMMENTS_END=constant.html.nestedCommentsEnd
 
 const heandle = (input: string) => {
 	const { splitArray, isComments } = splitInputText(input)
@@ -16,9 +17,9 @@ const heandle = (input: string) => {
 const splitInputText = (input: string) => {
 	const inputSplit = input.split("\n")
 	let commentsNum = 0
-
+	const warpTag=new RegExp(`(${COMMENTS_START})[\\s\\S]*(${COMMENTS_END})`)
 	inputSplit.forEach(lineItem => {
-		if (/(<!--)[\s\S]*(-->)/.test(lineItem)) {
+		if (warpTag.test(lineItem)) {
 			commentsNum++
 		}
 	})
@@ -31,36 +32,27 @@ const commentHeandle = (input: string[], test?: boolean) => {
 }
 
 const commentline = (lineText: string) => {
-	const Tab = `	`, space = ` `
-	const regText = `^${space}+|^${Tab}+|^`;
-	const startReg = new RegExp(regText)
-	let text = lineText.replace(/<!--/g, "<!~~").replace(/-->/g, "~~>")
-		.replace(startReg, (str) => `${str}${startKey}${space}`);
-	text = `${text} ${endKey}`;
-	return text
+	const Tab = constant.tabChars, space = constant.spaceChars
+	const gap = `^${space}+|^${Tab}+|^`;
+	const startGap = new RegExp(gap);
+	const startKeyReg = new RegExp(COMMENTS_START, "g")
+	const endKeyReg = new RegExp(COMMENTS_END, "g")
+	let text = lineText.replace(startKeyReg, NESTEDCOMMENTS_START).replace(endKeyReg, NESTEDCOMMENTS_END)
+		.replace(startGap, (str) => `${str}${COMMENTS_START}${space}`);
+	text = `${text} ${COMMENTS_END}`;
+	return text;
 }
 
 
-// const unCommentline = (lineText: string) => {
-// 	const regText=`(${startKey})((?!${startKey}).)*?(${endKey})`;
-// 	const lineText2=new RegExp(regText)
-// 	let text = lineText.replace(lineText2,(str)=>{
-// 		return str.replace(/<!--/, "").replace(/-->/, "")
-// 	})
-// 	const [nestedStartKey, nestedEndKey] = constant.html.nestedComments
-// 	let lineTextNesting = utils.ReplaceOutermostTag([startKey, endKey], [nestedStartKey, nestedEndKey], text) || ""
-// 	return lineTextNesting||text
-// }
 const unCommentline = (lineText: string) => {
-	const [nestedStartKey, nestedEndKey] = constant.html.nestedComments
-	let lineTextNesting = utils.ReplaceOutermostSingleTag([`${startKey} `, ` ${endKey}`], [nestedStartKey, nestedEndKey], lineText) || utils.ReplaceOutermostSingleTag([startKey, endKey], [nestedStartKey, nestedEndKey], lineText) || ""
-	if (lineTextNesting===lineText) {
-		lineTextNesting = lineText.replace(`${startKey} `, "").replace(`${endKey} `, "").replace(startKey, "").replace(endKey, "")
+	let lineTextNesting = utils.unOutermostTag(lineText,[COMMENTS_START,COMMENTS_END],[NESTEDCOMMENTS_START,NESTEDCOMMENTS_END],{ space:constant.spaceChars })
+	if (lineTextNesting === lineText) {
+		lineTextNesting = lineText.replace(`${COMMENTS_START} `, "").replace(`${COMMENTS_END} `, "").replace(COMMENTS_START, "").replace(COMMENTS_END, "");
 	}
-	return lineTextNesting.trimEnd()
+	return lineTextNesting.trimEnd();
 }
 const unCommentHeandle = (input: string[], test?: boolean) => {
-	return input.map((lineText) => unCommentline(lineText)).join("\n")
+	return input.map((lineText) => unCommentline(lineText)).join("\n");
 }
 
 

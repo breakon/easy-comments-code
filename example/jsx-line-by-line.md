@@ -42,6 +42,7 @@
 ## Before
 <!-- test:multiLine-before  -->
 ```jsx
+    <div>多行注释</div>
     {/* <div>多行注释</div> */}
     <div></div>
 ```

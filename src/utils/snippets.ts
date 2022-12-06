@@ -1,4 +1,3 @@
-import constantCfg from "../constant";
 export const GetMdHtmlBlock = (str: string) => {
 	// const reg1=/(?<=<template>)[\s\S]*(?=<\/template>)/;
 	const reg1 = /(?<=```html\n)[\s\S]*?(?=\n```)/;
@@ -16,105 +15,73 @@ export const TargetMdHtmCode = (key: string, mdHtmlText: string) => {
 export const GetOutermostTag = (arr: [string, string], str: string) => {
 	const [startKey, EndKey] = arr;
 	const reg = `(?<=${startKey})[\\s\\S]*?(?=${EndKey})`;
-	const nestedStarKeyReplace = new RegExp(reg,"g");
+	const nestedStarKeyReplace = new RegExp(reg, "g");
 	const res = str.match(nestedStarKeyReplace);
 	return res;
 };
-
-
-
-export const ReplaceOutermostTag = (
-	target: [string, string], 
-	removeNested: [string, string],
-	 str: string) => {
-	const textOutermost = GetOutermostTag(target, str);
-	if (!textOutermost) { return; }
-	// debugger
-	let  rowText=""
-	 for(let j = 0; j < textOutermost.length; j++){
-		const	textOutermostItem=textOutermost[j]
-		// console.log("textOutermost",textOutermost); 
-		const reg = new RegExp(constantCfg.html.combination.singleLayer, "g");
-		const textMatchList = textOutermostItem.match(reg)
-		const [ NC_Start,NC_End ]=removeNested
-		const SingleLabelIndex:{ [k:number]:string }={}//
-		if (!textMatchList) {
-			// console.warn("ReplaceOutermostTa:no match ", reg, str);
-			return null;
+function* MatchTag(strArr: Array<string> = [], [leftKey, rightKey]: [string, string]) {
+	let left: Array<string> = [];// 空栈
+	for (let i = 0; i < strArr.length; i++) {
+		const log = { stack: left, idx: i, isLeft: strArr[i] == leftKey }
+		yield log
+		if (strArr[i] == leftKey) {
+			left.push(strArr[i]) //左括号入栈
+		} else if (strArr[i] == rightKey && left.pop() != leftKey) {
+			return false; //结束循环
 		}
-		textMatchList.forEach((el,i) => { if(NC_Start===el||NC_End===el) { SingleLabelIndex[i]=el } });
-		const [C_Start,C_End]=constantCfg.html.comments
-		let isNestedRange=true,logIndex=0
-		const replaceTextResult=textOutermostItem.replace(reg, (_cString)=>{ 
-			const singleFindTag=SingleLabelIndex[logIndex]||null
-			let currentStr=_cString
-			if(singleFindTag){
-				const idx=[NC_Start,NC_End].indexOf(singleFindTag);
-				isNestedRange=NC_End===singleFindTag
-				currentStr= [C_Start,C_End][+idx];
+	}
+}
+
+
+export function unOutermostTag(_inputText: string = "",outerTag:[string, string],insideTag:[string, string],options={space:""}) {
+	
+	// commentsStart
+	const [oTagStart, oTagEnd]=outerTag,[ iTagStart, iTagEnd]=insideTag
+	const leftTagReg=new RegExp(`${oTagStart}`,"g");
+	const rightTagReg=new RegExp(`${oTagEnd}`,"g");
+	const leftTagTransition=iTagStart
+	const rightTagTransition=iTagEnd
+	const inputText = _inputText.replace(leftTagReg, leftTagTransition).replace(rightTagReg,rightTagTransition)
+
+	const findAllTag=new RegExp(`${leftTagTransition}|${rightTagTransition}`,"g");
+
+	const splitText = inputText.match(findAllTag)
+	if (!splitText || splitText.length <= 1) { return _inputText }
+	const iteratorMatchTag = MatchTag(splitText, insideTag)
+
+	const findReplaceAllTagReg=new RegExp(`(${iTagStart}${options.space})|(${options.space}${iTagEnd})|(${iTagStart})|(${iTagEnd})`,"g");
+
+	const tagSpace=options.space||" "
+	return inputText.replace(findReplaceAllTagReg, (v) => {
+		const currItem = iteratorMatchTag.next().value;
+		if (!currItem) { return v }
+		const currStackLen = currItem.stack.length
+		if (currItem.isLeft) {
+			if (currStackLen === 0) {
+				return ""
+			} else if (currStackLen === 1) {
+				let k = oTagStart
+				return `${k}${v.length > k.length ? tagSpace : ""}`
+			} else {
+				let k = iTagStart
+				return `${k}${v.length > k.length ? tagSpace : ""}`
 			}
-			if((isNestedRange)&&(currentStr.startsWith(NC_Start)&&currentStr.endsWith(NC_End))){
-				currentStr = currentStr.replace(NC_Start,C_Start).replace(NC_End,C_End)
-			}
-			
-			logIndex++
-			return currentStr
-		});
-		// const checkRowNum=str.split("\n")
-		// if(checkRowNum.length !==replaceTextResult.split("\n").length){
-		// 	return  null
-		// }
-		rowText+=replaceTextResult
-
-	 }
-	return rowText
-};
-
-
- 
-
-export const ReplaceOutermostSingleTag = (
-	target: [string, string],
-	removeNested: [string, string],
-	str: string) => {
-	const [startKey, EndKey] = target;
-	const reg = `(?<=${startKey})[\\s\\S]*?(?=${EndKey})`;
-	const nestedStarKeyReplace = new RegExp(reg);
-	return str.replace(nestedStarKeyReplace, (matchText) => {
-		const textOutermostItem = matchText
-		const singleLayer = new RegExp(constantCfg.html.combination.singleLayer, "g");
-		const textMatchList = textOutermostItem.match(singleLayer)
-		const [NC_Start, NC_End] = removeNested
-		const SingleLabelIndex: { [k: number]: string } = {}//
-		if (!textMatchList) {
-			// console.warn("ReplaceOutermostTa:no match ", reg, str);
-			return matchText;
-		}
-		textMatchList.forEach((el, i) => { if (NC_Start === el || NC_End === el) { SingleLabelIndex[i] = el } });
-		const [C_Start, C_End] = constantCfg.html.comments
-		let isNestedRange = true, logIndex = 0
-		let res=textOutermostItem.replace(singleLayer, (_cString) => {
-			const singleFindTag = SingleLabelIndex[logIndex] || null
-			let currentStr = _cString
-			if (singleFindTag) {
-
-				const idx = [NC_Start, NC_End].indexOf(singleFindTag);
-				isNestedRange = NC_End === singleFindTag
-				currentStr = [C_Start, C_End][+idx];
-			}
-			if ((isNestedRange) && (currentStr.startsWith(NC_Start) && currentStr.endsWith(NC_End))) {
-				currentStr = currentStr.replace(NC_Start,C_Start).replace(NC_End,C_End)
+		} else {
+			if (currStackLen - 1 === 0) {
+				return ""
+			} else if (currStackLen - 1 === 1) {
+				let k = oTagEnd
+				return `${v.length > k.length ? tagSpace : ""}${k}`
+			} else {
+				let k = iTagEnd
+				return `${v.length > k.length ? tagSpace : ""}${k}`
 			}
 
-			logIndex++
-			return currentStr
-		});
-		let unNestedRange=res.match(new RegExp(`(?<=${startKey})[\\s\\S]*(?=${EndKey})`))
-		if(unNestedRange){
-			res=unNestedRange[0].replace(/<!-- (.*?) -->/,v=>v.replace(C_Start,NC_Start).replace(C_End,NC_End))
 		}
 
-		return res
-	});
+
+
+	})
+
 }
 

@@ -7,7 +7,7 @@ function readFileIfExists(value?: string) {
   return value
 }
 
-import { TargetMdHtmCode, ReplaceOutermostTag } from "../src/utils";
+import { TargetMdHtmCode} from "../src/utils";
 
 import  htmlHendle from "../src/htmlHendle";
 const mdHtmlText: string = readFileIfExists("example/html-line-by-line.md") as string;
@@ -65,4 +65,10 @@ test('多行嵌套注释-创建与取消-2', () => {
   const [beforeText,afterText]=testTextTarget("test:nestedMultiLine-2")
     expect(htmlHendle.heandle(beforeText)).eq(afterText,"注释")
     expect(htmlHendle.heandle(afterText)).eq(beforeText,"取消注释")
-  })
+})
+
+test('多行嵌套注释-创建与取消-3', () => {
+  const [beforeText,afterText]=testTextTarget("test:nestedMultiLine-3")
+    expect(htmlHendle.heandle(beforeText)).eq(afterText,"注释")
+    expect(htmlHendle.heandle(afterText)).eq(beforeText,"取消注释")
+})

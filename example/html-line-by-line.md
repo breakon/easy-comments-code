@@ -73,19 +73,35 @@
 <!-- test:nestedMultiLine-2-before  -->
 ```html
     <div></div>
-    <!-- <div></div> -->
-    <div></div>
     <!-- <div><!~~ <div><!~~ <div>666</div> ~~></div> ~~></div> -->
-    <!-- <div></div> --><!-- <div></div> -->
 ```
 ## After-2
 <!-- test:nestedMultiLine-2-after  -->
 ```html
     <!-- <div></div> -->
-    <!-- <!~~ <div></div> ~~> -->
-    <!-- <div></div> -->
     <!-- <!~~ <div><!~~ <div><!~~ <div>666</div> ~~></div> ~~></div> ~~> -->
-    <!-- <!~~ <div></div> ~~><!~~ <div></div> ~~> -->
+```
+
+
+## Before-3
+<!-- test:nestedMultiLine-3-before  -->
+```html
+    <div>
+        <!-- <div> -->
+        <img />
+        <!-- err</div>-->
+        <div></div>
+    </div>
+```
+## After-3
+<!-- test:nestedMultiLine-3-after  -->
+```html
+    <!-- <div> -->
+        <!-- <!~~ <div> ~~> -->
+        <!-- <img /> -->
+        <!-- <!~~ err</div>~~> -->
+        <!-- <div></div> -->
+    <!-- </div> -->
 ```
 
 		

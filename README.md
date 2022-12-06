@@ -10,24 +10,33 @@
 ## 当前支持的文件(vue,wxml)
 ```html
 <template>
-    <h2>eg:</h2>
+    注释之前
      <div>
         <!-- <div></div>  -->
         <div></div>
         <!-- <div></div>  -->
      </div> 
+     注释之后
+     <!-- <div> -->
+        <!-- <!~~ <div></div>  ~~> -->
+        <!-- <div></div> -->
+        <!-- <!~~ <div></div>  ~~> -->
+      <!-- </div> -->
 
-    <h2>eg:</h2>
-       <!-- <div> -->
-       <!-- <!~~ <div></div>  ~~> -->
-       <!--  <div></div>   -->
-       <!-- <!~~ <div></div>  ~~> -->
-       <!-- </div>  -->
+  多层级注释 comments
+    <!-- <div></div> --> <!-- <div><!~~ <div></div> ~~></div> --> <!-- <div></div> -->
+
+  解除多层注释 unComments-1
+       <!-- <div></div> --> <!-- <div><!~~ <div></div> ~~></div> --> <!-- <div></div> -->
+  解除多层注释 unComments-2
+       <div></div> <div><!-- <div></div> --></div> <div></div>
+  解除多层注释 unComments-3
+       <div></div> <div><div></div></div> <div></div>
 </template>
 ```
 
 
-[更多功能](./example/html.md)
+[更多功能](./example/html-line-by-line.md)
 
 ## 关于 
 

@@ -12,36 +12,11 @@ This is on the basis of the original function optimization running comments plug
 **Vue HTML Nested Comments**
 ```html
 <template>
-    <h2>eg:</h2>
-     <div>
-        <!-- <div></div>  -->
-        <div></div>
-        <!-- <div></div>  -->
-     </div> 
-
-    <h2>eg:</h2>
-       <!-- <div>
-        <!~~ <div></div>  ~~>
-        <div></div>
-        <!~~ <div></div>  ~~>
-      </div>  -->
+  
 </template>
 ```
 
-[Functional details](./example/html.md)
-
-## Fix
-
-Note that no batch annotation is currently supported
-
-```html
-eg:
-<!-- <div></div>  -->
-<!-- <div></div> -->
-<!-- <div></div> -->
-```
-
-
+[Functional details](./example/html-line-by-line.md)
 
 
 ## The Next Version
