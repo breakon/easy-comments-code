@@ -7,7 +7,18 @@
 
 >CTRL+/
 
-## 当前支持的文件(vue,wxml)
+## 🎉当前支持的文件
+
+- vue(支持标签嵌套，css嵌套待支持)
+
+- wxml
+
+- xml
+
+- html(支持标签嵌套，css嵌套待支持)
+
+
+
 ```html
 <template>
     注释之前

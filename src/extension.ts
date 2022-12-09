@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) { return }
 		const document = editor.document;
-		const SupportingFile = { vue: formatVue, wxml: formatWxml }[document.languageId] || null
+		const SupportingFile = { vue: formatVue, wxml: formatWxml,xml:formatXml,html:formatHtml }[document.languageId] || null
 		if (!SupportingFile) { // Keep the default effect
 			vscode.commands.executeCommand("editor.action.commentLine"); return
 		}
@@ -22,7 +22,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const word = document.getText(entireRange)
 		const formatText = SupportingFile(word, editor, entireRange)
 		if (!formatText) {
-			console.warn("Not in line with rules")
+			console.warn("Not in line with rules",document.languageId)
 			vscode.commands.executeCommand("editor.action.commentLine");
 			return
 		}
@@ -57,4 +57,32 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 
 const formatWxml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
 	return htmlHendle.heandle(input)
+}
+
+const formatXml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
+	return htmlHendle.heandle(input)
+}
+
+const formatHtml = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
+	function isHTML(editor: vscode.TextEditor, entireRange: vscode.Range) {
+		let findTemplate = false;
+		for (let startIdx = entireRange.start.line - 1; startIdx >= 0; startIdx--) {
+			const textLine = editor.document.lineAt(startIdx).text;
+			if(textLine.lastIndexOf("</style>")>=0
+			|| textLine.lastIndexOf("</scrip>")>=0
+			||textLine.search(/(<script [^]+src=)|(<script[^>]*>[\s\S]*<\/script>)|(<script\/>)/)>=0 
+			||textLine.lastIndexOf("<html")>=0){
+				findTemplate=true
+				break
+			}else if(textLine.indexOf("<style")>=0||textLine.indexOf("<script")>=0){
+				break
+			} 
+		}
+		return findTemplate
+	}
+
+	if (isHTML(editor, entireRange)) {
+		return htmlHendle.heandle(input)
+	}
+ 
 }
