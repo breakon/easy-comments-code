@@ -8,8 +8,7 @@ export default {
 		commentsStart:"<!--",
 		commentsEnd:"-->",
 		nestedCommentsStart:"<!~~",
-		nestedCommentsEnd:"~~>",
-		
+		nestedCommentsEnd:"~~>", 
 		comments:htmlComments,
 		nestedComments:htmlNestedComments,
 		attributeComments:"//",
@@ -20,6 +19,12 @@ export default {
 			})()
 			
 		}
+	},
+	jsx:{
+		commentsStart:"{/*",
+		commentsEnd:"*/}",
+		nestedCommentsStart:"<!~~",
+		nestedCommentsEnd:"~~>",
 	},
 	css:{
 		comments:[]

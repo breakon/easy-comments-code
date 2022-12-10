@@ -3,7 +3,7 @@
 
 
 ```jsx
-{ /* /~ <Link to="/about">About</Link>  ~/ */}
+{ /* <!~~ <Link to="/about">About</Link>  ~~> */}
 ```
 
 ## USE
@@ -24,32 +24,19 @@
     {/* <div></div> */}
 ``` 
 
-## Before-2
-<!-- test:lineByLine-2-before  -->
-```jsx
-<div></div>
-```
-## After-2
-<!-- test:lineByLine-2-after  -->
-```jsx
-{/* <div></div> */}
-```
-
-
 ##  2. 多行注释
 <hr>
 
 ## Before
 <!-- test:multiLine-before  -->
 ```jsx
-    <div>多行注释</div>
     {/* <div>多行注释</div> */}
     <div></div>
 ```
 ## After
 <!-- test:multiLine-after  -->
 ```jsx
-    {/* /~~ <div>多行注释</div> ~~/ */}
+    {/* <!~~ <div>多行注释</div> ~~> */}
     {/* <div></div> */}
 ```
 

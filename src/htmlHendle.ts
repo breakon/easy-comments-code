@@ -1,12 +1,14 @@
 
 import * as utils from "./utils";
 import constant from "./constant"
-const COMMENTS_START = constant.html.commentsStart
-const COMMENTS_END = constant.html.commentsEnd
-const NESTEDCOMMENTS_START=constant.html.nestedCommentsStart
-const NESTEDCOMMENTS_END=constant.html.nestedCommentsEnd
+// constant.html.commentsStart
+let COMMENTS_START = constant.html.commentsStart
+let COMMENTS_END = constant.html.commentsEnd
+let NESTEDCOMMENTS_START=constant.html.nestedCommentsStart
+let NESTEDCOMMENTS_END=constant.html.nestedCommentsEnd
 
-const heandle = (input: string) => {
+const heandle = (input: string,) => {
+	
 	const { splitArray, isComments } = splitInputText(input)
 	if (isComments) {//取消注释
 		return commentHeandle(splitArray)

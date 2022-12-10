@@ -11,7 +11,11 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) { return }
 		const document = editor.document;
-		const SupportingFile = { vue: formatVue, wxml: formatWxml,xml:formatXml,html:formatHtml }[document.languageId] || null
+		const SupportingFile = {
+			vue: formatVue, wxml: formatWxml, xml: formatXml, html: formatHtml, 
+			// javascriptreact: formatJsx,
+			// typescriptreact: formatJsx
+		}[document.languageId] || null
 		if (!SupportingFile) { // Keep the default effect
 			vscode.commands.executeCommand("editor.action.commentLine"); return
 		}
@@ -22,7 +26,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const word = document.getText(entireRange)
 		const formatText = SupportingFile(word, editor, entireRange)
 		if (!formatText) {
-			console.warn("Not in line with rules",document.languageId)
+			console.warn("Not in line with rules", document.languageId)
 			vscode.commands.executeCommand("editor.action.commentLine");
 			return
 		}
@@ -36,7 +40,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 
 
 const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
-	function isTemplateRange(editor: vscode.TextEditor, entireRange: vscode.Range) {
+	function isHTML(editor: vscode.TextEditor, entireRange: vscode.Range) {
 		let findTemplate = false
 		for (let startIdx = entireRange.start.line - 1; startIdx >= 0; startIdx--) {
 			const linaAtIdexItemText = editor.document.lineAt(startIdx).text
@@ -50,7 +54,7 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		}
 		return findTemplate
 	}
-	if (isTemplateRange(editor, entireRange)) {
+	if (isHTML(editor, entireRange)) {
 		return htmlHendle.heandle(input)
 	}
 }
@@ -68,21 +72,53 @@ const formatHtml = (input: string, editor: vscode.TextEditor, entireRange: vscod
 		let findTemplate = false;
 		for (let startIdx = entireRange.start.line - 1; startIdx >= 0; startIdx--) {
 			const textLine = editor.document.lineAt(startIdx).text;
-			if(textLine.lastIndexOf("</style>")>=0
-			|| textLine.lastIndexOf("</scrip>")>=0
-			||textLine.search(/(<script [^]+src=)|(<script[^>]*>[\s\S]*<\/script>)|(<script\/>)/)>=0 
-			||textLine.lastIndexOf("<html")>=0){
-				findTemplate=true
+			if (textLine.lastIndexOf("</style>") >= 0
+				|| textLine.lastIndexOf("</scrip>") >= 0
+				|| textLine.search(/(<script [^]+src=)|(<script[^>]*>[\s\S]*<\/script>)|(<script\/>)/) >= 0
+				|| textLine.lastIndexOf("<html") >= 0) {
+				findTemplate = true
 				break
-			}else if(textLine.indexOf("<style")>=0||textLine.indexOf("<script")>=0){
+			} else if (textLine.indexOf("<style") >= 0 || textLine.indexOf("<script") >= 0) {
 				break
-			} 
+			}
 		}
 		return findTemplate
 	}
 
-	if (isHTML(editor, entireRange)) {
-		return htmlHendle.heandle(input)
+	if (isHTML(editor, entireRange)) { return htmlHendle.heandle(input) 
 	}
- 
+
+}
+
+const formatJsx = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
+	function isHTML(editor: vscode.TextEditor, entireRange: vscode.Range) {
+		let textAllLog = ""
+		let findTemplate = false;
+		for (let startIdx = entireRange.start.line; startIdx >= 0; startIdx--) {
+			const textLine = editor.document.lineAt(startIdx).text;
+			textAllLog += textLine+"\n"
+			//  htmlCase
+			// debugger
+			if (
+				(
+				textLine.trimEnd().search(/return([ 	]*)\(/)>=0
+				&&textLine.search(/return([ 	]*)\([\s\S]+\)/)===-1
+				&& textAllLog.search(/<\w+? (([\s\S])*?\>)|<\w+>/) >= 0
+				)
+				|| textLine.search(/return([ 	]*)\</) >= 0
+			) {
+				findTemplate = true
+				break
+			} else if (
+			!textLine.indexOf("}")||!textLine.search(/^\s+\}/)||!textLine.indexOf("export")) {
+				break
+			}
+		}
+		return findTemplate
+	}
+	if (isHTML(editor, entireRange)) {
+		return ""
+		// return htmlHendle.heandle(input)
+	} else {
+	}
 }
