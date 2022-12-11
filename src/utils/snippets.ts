@@ -32,15 +32,28 @@ function* MatchTag(strArr: Array<string> = [], [leftKey, rightKey]: [string, str
 	}
 }
 
+interface IunOutermostTag_options{
+space:string,
+outerTag:[string,string]
+}
 
-export function unOutermostTag(_inputText: string = "",outerTag:[string, string],insideTag:[string, string],options={space:""}) {
+export function unOutermostTag(
+	_inputText: string = "",
+	outerTag:[RegExp, RegExp],
+	insideTag:[string, string],
+	options:IunOutermostTag_options
+	) {
 	
 	// commentsStart
-	const [oTagStart, oTagEnd]=outerTag,[ iTagStart, iTagEnd]=insideTag
-	const leftTagReg=new RegExp(`${oTagStart}`,"g");
-	const rightTagReg=new RegExp(`${oTagEnd}`,"g");
+	const [oTagStartReg, oTagEndReg]=outerTag,[ iTagStart, iTagEnd]=insideTag
+	const [ oTagStart, oTagEnd]=options.outerTag
+
+	const leftTagReg=new RegExp(oTagStartReg,"g");
+	const rightTagReg=new RegExp(oTagEndReg,"g");
+
 	const leftTagTransition=iTagStart
 	const rightTagTransition=iTagEnd
+
 	const inputText = _inputText.replace(leftTagReg, leftTagTransition).replace(rightTagReg,rightTagTransition)
 
 	const findAllTag=new RegExp(`${leftTagTransition}|${rightTagTransition}`,"g");
@@ -70,6 +83,7 @@ export function unOutermostTag(_inputText: string = "",outerTag:[string, string]
 			if (currStackLen - 1 === 0) {
 				return ""
 			} else if (currStackLen - 1 === 1) {
+				// debugger
 				let k = oTagEnd
 				return `${v.length > k.length ? tagSpace : ""}${k}`
 			} else {
@@ -78,9 +92,6 @@ export function unOutermostTag(_inputText: string = "",outerTag:[string, string]
 			}
 
 		}
-
-
-
 	})
 
 }

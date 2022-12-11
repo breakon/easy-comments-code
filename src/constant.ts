@@ -1,33 +1,43 @@
-const htmlComments=["<!--","-->"];
-const htmlNestedCommentsIdentify="~~"
-const htmlNestedComments=["<!"+htmlNestedCommentsIdentify,htmlNestedCommentsIdentify+">"];
+// const htmlComments = ["<!--", "-->"];
+// const htmlNestedCommentsIdentify = "~~"
+// const htmlNestedComments = ["<!" + htmlNestedCommentsIdentify, htmlNestedCommentsIdentify + ">"];
 export default {
-	spaceChars:" ",
-	tabChars:"	",
-	html:{
-		commentsStart:"<!--",
-		commentsEnd:"-->",
-		nestedCommentsStart:"<!~~",
-		nestedCommentsEnd:"~~>", 
-		comments:htmlComments,
-		nestedComments:htmlNestedComments,
-		attributeComments:"//",
+	spaceChars: " ",
+	tabChars: "	",
+	html: {
+		commentsStart: "<!--",
+		commentsEnd: "-->",
 
-		combination:{
-			singleLayer:(()=>{
-				return ""
-			})()
-			
-		}
+		commentsStartReg: /<!--/,
+		commentsEndReg: /-->/,
+
+		nestedCommentsStart: "<!~~",
+		nestedCommentsEnd: "~~>",
+
+		isCommentsReg: /(<!--)[\s\S]*(-->)/,
+
+		// comments: htmlComments,
+		// nestedComments: htmlNestedComments,
+		attributeComments: "//",
+		// combination: {
+		// 	singleLayer: (() => {
+		// 		return ""
+		// 	})()
+
+		// }
 	},
-	jsx:{
-		commentsStart:"{/*",
-		commentsEnd:"*/}",
-		nestedCommentsStart:"<!~~",
-		nestedCommentsEnd:"~~>",
+	jsx: {
+		commentsStart: "{/*",
+		commentsStartReg: /\{\/\*/,
+		commentsEnd: "*/}",
+		commentsEndReg: /(\*)\/\}/,
+
+		isCommentsReg: /(\{\/\*)[\s\S]*(\*\/\})/,
+		nestedCommentsStart: "<!~~",
+		nestedCommentsEnd: "~~>",
 	},
-	css:{
-		comments:[]
+	css: {
+		comments: []
 	}
 
 };

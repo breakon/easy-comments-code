@@ -3,18 +3,19 @@
 import * as vscode from 'vscode';
 import constant from "./constant"
 import * as utils from "./utils";
-import htmlHendle from "./htmlHendle"
 import { BaseLanguageClient } from 'vscode-languageclient';
+import htmlLinebyLineHandle from "./htmlLinebyLineHandle"
 export function activate(context: vscode.ExtensionContext, client: BaseLanguageClient) {
+
 	// await vscode.commands.executeCommand("editor.action.commentLine")
 	vscode.commands.registerTextEditorCommand("extension.EasyCommentsCode", () => {
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) { return }
 		const document = editor.document;
 		const SupportingFile = {
-			vue: formatVue, wxml: formatWxml, xml: formatXml, html: formatHtml, 
-			// javascriptreact: formatJsx,
-			// typescriptreact: formatJsx
+			vue: formatVue, wxml: formatWxml, xml: formatXml, html: formatHtml,
+			javascriptreact: formatJsx,
+			typescriptreact: formatJsx
 		}[document.languageId] || null
 		if (!SupportingFile) { // Keep the default effect
 			vscode.commands.executeCommand("editor.action.commentLine"); return
@@ -55,16 +56,19 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		return findTemplate
 	}
 	if (isHTML(editor, entireRange)) {
-		return htmlHendle.heandle(input)
+		const htmlInstance = new htmlLinebyLineHandle(constant.html)
+		return htmlInstance.handle(input)
 	}
 }
 
 const formatWxml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
-	return htmlHendle.heandle(input)
+	const htmlInstance = new htmlLinebyLineHandle(constant.html)
+	return htmlInstance.handle(input)
 }
 
 const formatXml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
-	return htmlHendle.heandle(input)
+	const htmlInstance = new htmlLinebyLineHandle(constant.html)
+	return htmlInstance.handle(input)
 }
 
 const formatHtml = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
@@ -85,7 +89,9 @@ const formatHtml = (input: string, editor: vscode.TextEditor, entireRange: vscod
 		return findTemplate
 	}
 
-	if (isHTML(editor, entireRange)) { return htmlHendle.heandle(input) 
+	if (isHTML(editor, entireRange)) {
+		const htmlInstance = new htmlLinebyLineHandle(constant.html)
+		return htmlInstance.handle(input)
 	}
 
 }
@@ -96,29 +102,26 @@ const formatJsx = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		let findTemplate = false;
 		for (let startIdx = entireRange.start.line; startIdx >= 0; startIdx--) {
 			const textLine = editor.document.lineAt(startIdx).text;
-			textAllLog += textLine+"\n"
-			//  htmlCase
-			// debugger
+			textAllLog += textLine + "\n"
 			if (
 				(
-				textLine.trimEnd().search(/return([ 	]*)\(/)>=0
-				&&textLine.search(/return([ 	]*)\([\s\S]+\)/)===-1
-				&& textAllLog.search(/<\w+? (([\s\S])*?\>)|<\w+>/) >= 0
+					textLine.trimEnd().search(/return([ 	]*)\(/) >= 0
+					&& textLine.search(/return([ 	]*)\([\s\S]+\)/) === -1
+					&& textAllLog.search(/<\w+? (([\s\S])*?\>)|<\w+>/) >= 0
 				)
 				|| textLine.search(/return([ 	]*)\</) >= 0
 			) {
 				findTemplate = true
 				break
 			} else if (
-			!textLine.indexOf("}")||!textLine.search(/^\s+\}/)||!textLine.indexOf("export")) {
+				!textLine.indexOf("}") || !textLine.search(/^\s+\}/) || !textLine.indexOf("export")) {
 				break
 			}
 		}
 		return findTemplate
 	}
 	if (isHTML(editor, entireRange)) {
-		return ""
-		// return htmlHendle.heandle(input)
-	} else {
+		const htmlJsx = new htmlLinebyLineHandle(constant.jsx)
+		return htmlJsx.handle(input)
 	}
 }
