@@ -4,7 +4,7 @@ import * as vscode from 'vscode';
 import constant from "./constant"
 import * as utils from "./utils";
 import { BaseLanguageClient } from 'vscode-languageclient';
-import htmlLinebyLineHandle from "./htmlLinebyLineHandle"
+import linebyLineHandleTag from "./htmlLinebyLineHandle"
 export function activate(context: vscode.ExtensionContext, client: BaseLanguageClient) {
 
 	// await vscode.commands.executeCommand("editor.action.commentLine")
@@ -15,9 +15,13 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const SupportingFile = {
 			vue: formatVue, wxml: formatWxml, xml: formatXml, html: formatHtml,
 			javascriptreact: formatJsx,
-			typescriptreact: formatJsx
+			typescriptreact: formatJsx,
+			css: formatCss,
+
+
 		}[document.languageId] || null
 		if (!SupportingFile) { // Keep the default effect
+			console.log("No SupportingFile",document.languageId)
 			vscode.commands.executeCommand("editor.action.commentLine"); return
 		}
 		const { start: { line: textStartLine }, end: { line: textEndLine } } = editor.selection;
@@ -55,19 +59,21 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		}
 		return findTemplate
 	}
+	
+
 	if (isHTML(editor, entireRange)) {
-		const htmlInstance = new htmlLinebyLineHandle(constant.html)
+		const htmlInstance = new linebyLineHandleTag(constant.html)
 		return htmlInstance.handle(input)
 	}
 }
 
 const formatWxml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
-	const htmlInstance = new htmlLinebyLineHandle(constant.html)
+	const htmlInstance = new linebyLineHandleTag(constant.html)
 	return htmlInstance.handle(input)
 }
 
 const formatXml = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
-	const htmlInstance = new htmlLinebyLineHandle(constant.html)
+	const htmlInstance = new linebyLineHandleTag(constant.html)
 	return htmlInstance.handle(input)
 }
 
@@ -90,7 +96,7 @@ const formatHtml = (input: string, editor: vscode.TextEditor, entireRange: vscod
 	}
 
 	if (isHTML(editor, entireRange)) {
-		const htmlInstance = new htmlLinebyLineHandle(constant.html)
+		const htmlInstance = new linebyLineHandleTag(constant.html)
 		return htmlInstance.handle(input)
 	}
 
@@ -121,7 +127,16 @@ const formatJsx = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		return findTemplate
 	}
 	if (isHTML(editor, entireRange)) {
-		const htmlJsx = new htmlLinebyLineHandle(constant.jsx)
+		const htmlJsx = new linebyLineHandleTag(constant.jsx)
 		return htmlJsx.handle(input)
 	}
 }
+
+
+
+const formatCss = (input: string, editor?: vscode.TextEditor, entireRange?: vscode.Range) => {
+	const cssInstance = new linebyLineHandleTag(constant.css)
+	return cssInstance.handle(input)
+}
+
+

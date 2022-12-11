@@ -37,7 +37,14 @@ export default {
 		nestedCommentsEnd: "~~>",
 	},
 	css: {
-		comments: []
+		commentsStart: "/*",
+		commentsEnd: "*/",
+		commentsStartReg: /\/\*/,
+		commentsEndReg: /\*\//,
+
+		isCommentsReg: /(\/\*)[\s\S]*(\*\/)/,
+		nestedCommentsStart: "/~",
+		nestedCommentsEnd: "~/",
 	}
 
 };

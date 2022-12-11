@@ -15,6 +15,13 @@
 
 - xml
 
+- css
+
+- postcss
+
+- jsx / tsx
+
+
 - html(支持标签嵌套，css嵌套待支持)
 
 
@@ -45,6 +52,26 @@
        <div></div> <div><div></div></div> <div></div>
 </template>
 ```
+
+react
+
+```jsx
+
+注释前
+{/* <div></div> */}
+<div></div>
+{/* <div></div> */}
+
+
+注释后
+{/* <!~~ <div></div> ~~> */}
+{/* <div></div> */}
+{/* <!~~ <div></div> ~~> */}
+
+```
+
+
+
 
 
 [更多功能](./example/html-line-by-line.md)
