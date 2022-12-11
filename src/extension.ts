@@ -31,7 +31,7 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 		const word = document.getText(entireRange)
 		const formatText = SupportingFile(word, editor, entireRange)
 		if (!formatText) {
-			console.warn("Not in line with rules", document.languageId)
+			// console.warn("Not in line with rules", document.languageId)
 			vscode.commands.executeCommand("editor.action.commentLine");
 			return
 		}
@@ -104,12 +104,17 @@ const formatHtml = (input: string, editor: vscode.TextEditor, entireRange: vscod
 
 const formatJsx = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
 	function isHTML(editor: vscode.TextEditor, entireRange: vscode.Range) {
-		let textAllLog = ""
+		let textAllLog = "", attrIndex=-1
 		let findTemplate = false;
-		for (let startIdx = entireRange.start.line; startIdx >= 0; startIdx--) {
+		for (let startIdx = entireRange.start.line,truncationIdx=0; startIdx >= 0;truncationIdx++, startIdx--) {
 			const textLine = editor.document.lineAt(startIdx).text;
 			textAllLog += textLine + "\n"
-			if (
+			if(attrIndex===-1&&startIdx!=entireRange.start.line){ 
+				const t=textLine.search(/<.+>/);
+				attrIndex= t>=0?-1:truncationIdx
+			}
+
+			 if (
 				(
 					textLine.trimEnd().search(/return([ 	]*)\(/) >= 0
 					&& textLine.search(/return([ 	]*)\([\s\S]+\)/) === -1
@@ -117,6 +122,10 @@ const formatJsx = (input: string, editor: vscode.TextEditor, entireRange: vscode
 				)
 				|| textLine.search(/return([ 	]*)\</) >= 0
 			) {
+				const findTagAttr=textAllLog.split("\n").splice(0,attrIndex+1).join("\n")
+				if(findTagAttr.search(/<[\s\S]*(>)/)==-1){
+					break
+				}
 				findTemplate = true
 				break
 			} else if (
