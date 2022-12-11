@@ -2,10 +2,18 @@
 <p align=''> 这个是基于默认功能注释，功能优化插件 </p>
 <!-- <p align=''> 中文 | <a href='./README.en-US.md'>English</a> </p> -->
 
-
+![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/breakon.easy-comments-code)
+![Visual Studio Marketplace Downloads](https://img.shields.io/visual-studio-marketplace/d/breakon.easy-comments-code)
+![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/breakon.easy-comments-code)
+![Visual Studio Marketplace Rating (Stars)](https://img.shields.io/visual-studio-marketplace/stars/breakon.easy-comments-code)
+![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/r/breakon.easy-comments-code)
+![GitHub last commit](https://img.shields.io/github/last-commit/breakon/easy-comments-code)
+![GitHub](https://img.shields.io/github/license/breakon/easy-comments-code?color=green)
 ## 使用方式
 
 >CTRL+/
+
+![img](images/htmlnestComments.gif)
 
 ## 🎉当前支持的文件
 
@@ -69,6 +77,7 @@ react
 {/* <!~~ <div></div> ~~> */}
 
 ```
+
 
 
 
