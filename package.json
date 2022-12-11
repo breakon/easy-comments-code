@@ -2,7 +2,7 @@
     "name": "easy-comments-code",
     "displayName": "Easy Comments Code",
     "description": "A simple comments code",
-    "version": "0.0.12",
+    "version": "0.1.0",
     "publisher": "breakon",
     "license": "MIT",
     "author": {
@@ -27,7 +27,15 @@
     ],
     "keywords": [
         "comment",
-        "vue"
+        "vue",
+        "react",
+        "xml",
+        "wxml",
+        "wxss",
+        "jsx",
+        "tsx",
+        "html",
+        "react"
     ],
     "main": "./out/extension",
     "contributes": {
