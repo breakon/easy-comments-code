@@ -45,11 +45,15 @@ export function activate(context: vscode.ExtensionContext, client: BaseLanguageC
 
 
 const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode.Range) => {
+	let isStyle=false,getStyleText=""
+	let findTemplate = false
 	function isHTML(editor: vscode.TextEditor, entireRange: vscode.Range) {
-		let findTemplate = false
 		for (let startIdx = entireRange.start.line - 1; startIdx >= 0; startIdx--) {
 			const linaAtIdexItemText = editor.document.lineAt(startIdx).text
-			if ((linaAtIdexItemText.indexOf("<style") === 0 || linaAtIdexItemText.indexOf("</style>") === 0 || linaAtIdexItemText.indexOf("<script") == 0 || linaAtIdexItemText.indexOf("</scrip>") == 0)) {
+			const linaAtIdxTexTrim=linaAtIdexItemText.trimStart()
+			if ((linaAtIdxTexTrim.indexOf("<style") === 0 || linaAtIdxTexTrim.indexOf("</style>") === 0 || linaAtIdxTexTrim.indexOf("<script") == 0 || linaAtIdxTexTrim.indexOf("</scrip>") == 0)) {
+				 isStyle=linaAtIdxTexTrim.indexOf("<style") === 0
+				 getStyleText=linaAtIdxTexTrim
 				break
 			}
 			findTemplate = !editor.document.lineAt(startIdx).text.indexOf("<template")
@@ -59,11 +63,16 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		}
 		return findTemplate
 	}
-	
+	isHTML(editor, entireRange)
 
-	if (isHTML(editor, entireRange)) {
+	if (findTemplate) {
 		const htmlInstance = new linebyLineHandleTag(constant.html)
 		return htmlInstance.handle(input)
+	}else if(isStyle&&getStyleText){
+		const htmlInstance = new linebyLineHandleTag(constant.css)
+		if(getStyleText.search(/lang=["' ]+postcss+[ '"]/)>=0||getStyleText.search(/(<style)\s+>/)>=0){
+		return htmlInstance.handle(input)
+		}
 	}
 }
 
