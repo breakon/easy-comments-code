@@ -17,7 +17,7 @@
 
 ## 🎉当前支持的文件
 
-- vue(支持标签嵌套，css嵌套待支持)
+- vue(支持标签嵌套，css-postcss,css)
 
 - wxml
 
@@ -80,7 +80,9 @@ react
 
 
 
+## 下个版本计划
 
+markdown等格式和其他注释优化等功能，自定义等等功能
 
 
 [更多功能](./example/html-line-by-line.md)
