@@ -58,23 +58,20 @@ class HtmlModule {
 
 
 	commentHeandle(input: string[]) {
-				const t=this
-		return input.map((lineText) => {
+			const t=this
+			return input.map((lineText) => {
 			const Tab = constant.tabChars, space = constant.spaceChars
 			const gap = `^${space}+|^${Tab}+|^`;
-			// debugger
-
 			const startGap = new RegExp(gap);
 			const startKeyReg = new RegExp(t.COMMENTS_START_REG, "g")
 			const endKeyReg = new RegExp(t.COMMENTS_END_RGE, "g")
-			let text = lineText
+			let text = lineText.replace(/\r/g,"")
 			.replace(startKeyReg, t.NESTEDCOMMENTS_START)
 			.replace(endKeyReg, t.NESTEDCOMMENTS_END)
 			.replace(startGap, (str) => `${str}${t.COMMENTS_START}${space}`);
-			text = `${text}${space}${this.COMMENTS_END}`;
-			return text;
-		}
-		).join("\n")
+			text = `${text}${space}${t.COMMENTS_END}`
+			return text
+		}).join("\n")
 	}
 	unCommentHeandle(input: string[]) {
 		const space = constant.spaceChars
