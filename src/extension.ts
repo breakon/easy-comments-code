@@ -122,23 +122,20 @@ const formatJsx = (input: string, editor: vscode.TextEditor, entireRange: vscode
 				const t=textLine.search(/<.+>/);
 				attrIndex= t>=0?-1:truncationIdx
 			}
-
 			 if (
-				(
-					textLine.trimEnd().search(/return([ 	]*)\(/) >= 0
+				( textLine.trimEnd().search(/return([ 	]*)\(/) >= 0
 					&& textLine.search(/return([ 	]*)\([\s\S]+\)/) === -1
-					&& textAllLog.search(/<\w+? (([\s\S])*?\>)|<\w+>/) >= 0
+					&& (textAllLog.search(/<\w+? (([\s\S])*?\>)|(<\w+>)/) >= 0)
 				)
 				|| textLine.search(/return([ 	]*)\</) >= 0
 			) {
-				const findTagAttr=textAllLog.split("\n").splice(0,attrIndex+1).join("\n")
+				const findTagAttr=textAllLog.split("\n").splice(0,attrIndex+1).join("\n");
 				if(findTagAttr.search(/<[\s\S]*(>)/)==-1){
 					break
 				}
 				findTemplate = true
 				break
-			} else if (
-				!textLine.indexOf("}") || !textLine.search(/^\s+\}/) || !textLine.indexOf("export")) {
+			} else if ( textLine.trimStart().indexOf("export ")===0) {
 				break
 			}
 		}
