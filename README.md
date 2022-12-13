@@ -13,8 +13,6 @@
 
 >CTRL+/
 
-![img](images/htmlnestComments.gif)
-
 ## 🎉当前支持的文件
 
 - vue(支持标签嵌套，css-postcss,css)
@@ -38,26 +36,14 @@
 <template>
     注释之前
      <div>
-        <!-- <div></div>  -->
+<!--        <div></div>  -->
         <div></div>
-        <!-- <div></div>  -->
+<!--         <div></div>  -->
      </div> 
      注释之后
-     <!-- <div> -->
-        <!-- <!~~ <div></div>  ~~> -->
-        <!-- <div></div> -->
-        <!-- <!~~ <div></div>  ~~> -->
-      <!-- </div> -->
-
-  多层级注释 comments
-    <!-- <div></div> --> <!-- <div><!~~ <div></div> ~~></div> --> <!-- <div></div> -->
-
-  解除多层注释 unComments-1
-       <!-- <div></div> --> <!-- <div><!~~ <div></div> ~~></div> --> <!-- <div></div> -->
-  解除多层注释 unComments-2
-       <div></div> <div><!-- <div></div> --></div> <div></div>
-  解除多层注释 unComments-3
-       <div></div> <div><div></div></div> <div></div>
+<!--        <div></div>  -->
+        <div></div>
+<!--         <div></div>  -->
 </template>
 ```
 
