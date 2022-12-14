@@ -70,7 +70,7 @@ const formatVue = (input: string, editor: vscode.TextEditor, entireRange: vscode
 		return htmlInstance.handle(input)
 	}else if(isStyle&&getStyleText){
 		const htmlInstance = new linebyLineHandleTag(constant.css)
-		if(getStyleText.search(/lang=["' ]+postcss+[ '"]/)>=0||getStyleText.search(/(<style)[scoped\s]+>/)>=0){
+		if(getStyleText.search(/lang=["' ]+postcss+[ '"]/)>=0||getStyleText.search(/(<style)[scoped\s]*>/)>=0){
 		return htmlInstance.handle(input)
 		}
 	}
