@@ -16,7 +16,7 @@
 ## After-1
 <!-- test:lineByLine-1-after  -->
 ```html
-    <!-- <div></div> -->
+<!--      <div></div> -->
 ```
 
 ## Before-2
@@ -27,7 +27,7 @@
 ## After-2
 <!-- test:lineByLine-2-after  -->
 ```html
-<!--<div></div> -->
+<!--      <div></div> -->
 ```
 
 ##  2. 多行注释
@@ -42,8 +42,8 @@
 ## After
 <!-- test:multiLine-after  -->
 ```html
-    <!-- <!~~ <div>多行注释</div> ~~> -->
-    <!-- <div></div> -->
+<!--     <!~~ <div>多行注释</div> ~~> -->
+<!--     <div></div> -->
 ```
 
 ##  3. 多行注释-嵌套
@@ -63,9 +63,9 @@
 ## After-1
 <!-- test:nestedMultiLine-1-after  -->
 ```html
-    <!-- <div></div> -->
+<!--     <div></div> -->
 <!-- <!~~ <div></div> ~~> -->
-    <!-- <div></div> -->
+<!--     <div></div> -->
 ```
 
 
@@ -78,8 +78,8 @@
 ## After-2
 <!-- test:nestedMultiLine-2-after  -->
 ```html
-    <!-- <div></div> -->
-    <!-- <!~~ <div><!~~ <div><!~~ <div>666</div> ~~></div> ~~></div> ~~> -->
+<!-- <div></div> -->
+<!-- <!~~ <div><!~~ <div><!~~ <div>666</div> ~~></div> ~~></div> ~~> -->
 ```
 
 
@@ -96,12 +96,12 @@
 ## After-3
 <!-- test:nestedMultiLine-3-after  -->
 ```html
-    <!-- <div> -->
-        <!-- <!~~ <div> ~~> -->
-        <!-- <img /> -->
-        <!-- <!~~ err</div>~~> -->
-        <!-- <div></div> -->
-    <!-- </div> -->
+<!--     <div> -->
+<!--         <!~~ <div> ~~> -->
+<!--         <img /> -->
+<!--         <!~~ err</div>~~> -->
+<!--         <div></div> -->
+<!--     </div> -->
 ```
 
 		

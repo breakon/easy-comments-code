@@ -34,16 +34,19 @@
 
 ```html
 <template>
-    注释之前
-     <div>
-<!--        <div></div>  -->
-        <div></div>
-<!--         <div></div>  -->
-     </div> 
-     注释之后
-<!--        <div></div>  -->
-        <div></div>
-<!--         <div></div>  -->
+注释之前
+    <div>
+        <!-- <div></div>  -->
+                <div></div>
+        <!-- <div></div>  -->
+     </div>
+注释之后
+<!--     <div> -->
+<!--         <!~~ <div></div>  ~~> -->
+<!--                 <div></div> -->
+<!--         <!~~ <div></div>  ~~> -->
+<!--      </div> -->
+
 </template>
 ```
 
