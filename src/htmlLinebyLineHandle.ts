@@ -45,15 +45,17 @@ class HtmlModule {
 	}
 	splitInputText(input: string) {
 		const inputSplit = input.split("\n")
-		let commentsNum = 0
+		let commentsNum = 0,lineItemTrimNum=0
 		inputSplit.forEach(lineItem => {
-			if (this.IsCommentsReg.test(lineItem)) {
+			const lineItemTrim=lineItem.trim()
+			if (lineItemTrim&&this.IsCommentsReg.test(lineItem)) { 
 				commentsNum++
+			}else if(!lineItemTrim){
+				lineItemTrimNum++
 			}
 		})
-		return { splitArray: inputSplit, isComments: !(commentsNum == inputSplit.length) }
+		return { splitArray: inputSplit, isComments: !(commentsNum === inputSplit.length-lineItemTrimNum) }
 	}
-
 
 	commentHeandle(input: string[]):string {
 		const rowLineOne = 1, t = this;
@@ -61,7 +63,7 @@ class HtmlModule {
 		const startKeyReg = new RegExp(t.COMMENTS_START_REG, "g")
 		const endKeyReg = new RegExp(t.COMMENTS_END_RGE, "g")
 		const baselineTextHandle=(lt:string) =>lt.replace(/\r/g, "").replace(startKeyReg, t.NESTEDCOMMENTS_START).replace(endKeyReg, t.NESTEDCOMMENTS_END)
-		if (input.length === rowLineOne) {
+		if (!constant.isCommentPointBeginningLine||input.length === rowLineOne) {
 			return input.map((lineText) => {
 				let text = baselineTextHandle(lineText).replace(new RegExp(`^${space}+|^${Tab}+|^`),(str) => `${str}${t.COMMENTS_START}${space}`);
 				return `${text}${space}${t.COMMENTS_END}`

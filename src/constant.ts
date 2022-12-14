@@ -1,7 +1,7 @@
-// const htmlComments = ["<!--", "-->"];
-// const htmlNestedCommentsIdentify = "~~"
-// const htmlNestedComments = ["<!" + htmlNestedCommentsIdentify, htmlNestedCommentsIdentify + ">"];
+ 
 export default {
+	// todo
+	isCommentPointBeginningLine:false,//user set
 	spaceChars: " ",
 	tabChars: "	",
 	html: {
@@ -16,8 +16,7 @@ export default {
 
 		isCommentsReg: /(<!--)[\s\S]*(-->)/,
 
-		// comments: htmlComments,
-		// nestedComments: htmlNestedComments,
+	 
 		attributeComments: "//",
 		// combination: {
 		// 	singleLayer: (() => {
